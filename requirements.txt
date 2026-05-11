@@ -1,14 +1,5 @@
-<<<<<<< HEAD
 streamlit
 pandas
 plotly
 requests
-yfinance  # for stock data
-datetime
-=======
-pandas>=2.0.0
-requests>=2.31.0
-streamlit>=1.32.0
-yfinance>=0.2.36
-pytest>=8.0.0
->>>>>>> 3dfe383987a32470d4065ed3e80e834a7f02e8b4
+yfinance
