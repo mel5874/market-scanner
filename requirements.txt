@@ -1,0 +1,6 @@
+streamlit
+pandas
+plotly
+requests
+yfinance  # for stock data
+datetime
