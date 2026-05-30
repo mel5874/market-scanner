@@ -4,6 +4,7 @@ from collections import defaultdict
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import json
 import os
 import csv
@@ -325,7 +326,8 @@ if st.button("🔍 Scan Markets", type="primary", use_container_width=True, key=
             st.session_state.watchlist,
             st.session_state.history
             )
-    st.session_state.last_scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    st.write(datetime.now(ZoneInfo("Europe/London")))
+    st.session_state.last_scan_time = datetime.now(ZoneInfo("Europe/London")).strftime("%Y-%m-%d %H:%M:%S")
     st.success(f"Scan completed! Latest scan time: {st.session_state.last_scan_time}")
     st.rerun()
 
@@ -1046,7 +1048,7 @@ st.write("**Scan data note:** Signals are generated from your current watchlist 
 if st.button("🔍 Scan Markets", type="primary", use_container_width=True):
     st.info("Scanning the current watchlist in paper trading mode")
     st.session_state.signals, st.session_state.history, st.session_state.performance = run_scan(st.session_state.watchlist, st.session_state.history)
-    st.session_state.last_scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+ 
     st.success(f"Scan completed! Latest scan time: {st.session_state.last_scan_time}")
     st.rerun()
 
