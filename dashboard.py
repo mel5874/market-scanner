@@ -177,7 +177,7 @@ def get_live_price(symbol):
 
 
 def get_default_watchlist():
-    return ["AAPL", "GOOGL", "TSLA", "MSFT", "AMZN"]
+    return ["AAPL", "GOOGL", "TSLA", "MSFT", "AMZN", "BTC-USD", "ETH-USD", "XRP", "SOL-USD"]
 
 
 def build_scan_explanation(symbol, signal):
@@ -303,7 +303,7 @@ performance = st.session_state.performance
 portfolio = st.session_state.portfolio
 
 # App title
-st.title("Market Scanner Dashboard")
+st.title("Codex Market Scanner")
 
 st.error("""
 ⚠️ TESTER / DEMO MODE
@@ -314,6 +314,28 @@ st.error("""
 - Signals may be inaccurate
 - Do not use this for live trading decisions
 """)
+
+st.subheader("Start a New Scan")
+st.info("👋 New here? Start by running a scan. Then review the signals before opening any pretend trades.")
+st.write("Click the button below to scan your current watchlist and update the latest signals.")
+
+if st.button("🔍 Scan Markets", type="primary", use_container_width=True, key="top_scan_button"):
+    with st.spinner("🔄 Scanning markets... Please wait."):
+        st.session_state.signals, st.session_state.history, st.session_state.performance = run_scan(
+            st.session_state.watchlist,
+            st.session_state.history
+            )
+    st.session_state.last_scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    st.success(f"Scan completed! Latest scan time: {st.session_state.last_scan_time}")
+    st.rerun()
+
+# Latest scan timestamp
+if st.session_state.last_scan_time:
+    st.subheader(f"Latest Scan: {st.session_state.last_scan_time}")
+    st.write("**What is this?** This is the date and time when you last clicked 'Scan Markets'. It tells you how fresh the signals are. If it's old, the market may have changed since then.")
+else:
+    st.subheader("Latest Scan: No scans run yet")
+    st.info("Click 'Scan Markets' below to see the latest market signals and update this timestamp.")
 
 st.info("This is an early demo version for learning. Scan results are generated from the current watchlist and pretend market data only. No broker is connected and no live trading is included.")
 
@@ -368,25 +390,18 @@ st.markdown("**Welcome!** This dashboard helps beginners like you understand mar
 # Disclaimer reminder
 st.warning("This tool is educational only, paper trading only, and does not connect to a broker. Always do your own research before using real money.")
 
-# Latest scan timestamp
-if st.session_state.last_scan_time:
-    st.subheader(f"Latest Scan: {st.session_state.last_scan_time}")
-    st.write("**What is this?** This is the date and time when you last clicked 'Scan Markets'. It tells you how fresh the signals are. If it's old, the market may have changed since then.")
-else:
-    st.subheader("Latest Scan: No scans run yet")
-    st.info("Click 'Scan Markets' below to see the latest market signals and update this timestamp.")
 
 # Performance summary cards
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Total Signals", performance["total_signals"])
-    st.write("**Total Signals:** The number of buy/sell/hold recommendations generated so far. More signals mean more analysis done.")
+    st.write("**Total Signals:** How many recommendations the scanner has generated.")
 with col2:
     st.metric("Win Rate (%)", f"{performance['win_rate']:.1f}")
-    st.write("**Win Rate:** A simple percent metric based on how many buy signals exist compared with total signals in this session.")
+    st.write("**Win Rate:** The percentage of closed pretend trades that ended in profit.")
 with col3:
     st.metric("Total Return (%)", f"{performance['total_return']:.1f}")
-    st.write("**Total Return:** A placeholder value in this paper trading demo until more pretend trading history is available.")
+    st.write("**Total Return:** The overall profit or loss from your pretend trading portfolio.")
 
 # Charts for signals
 st.subheader("Signal Distribution")
@@ -521,6 +536,8 @@ st.dataframe(history_df)
 
 # Watchlist management
 st.subheader("Watchlist")
+st.write(f"📈 Watching {len(watchlist)} assets")
+
 st.write("**What is this?** A watchlist is a list of stocks and cryptocurrencies you want to monitor. Edit the list in the text box below by typing symbols separated by commas. This helps you focus on the assets you want to practice with.")
 
 # Initialize session state for watchlist edit
@@ -1026,7 +1043,7 @@ for insight in insights:
 st.subheader("Start a New Scan")
 st.write("**What does this do?** Clicking 'Scan Markets' generates an updated set of pretend signals for the symbols in your watchlist. It uses paper trading mode only.")
 st.write("**Scan data note:** Signals are generated from your current watchlist and built-in pretend market data. This is for learning only; no broker is connected.")
-if st.button("Scan Markets"):
+if st.button("🔍 Scan Markets", type="primary", use_container_width=True):
     st.info("Scanning the current watchlist in paper trading mode")
     st.session_state.signals, st.session_state.history, st.session_state.performance = run_scan(st.session_state.watchlist, st.session_state.history)
     st.session_state.last_scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
