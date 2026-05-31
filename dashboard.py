@@ -9,6 +9,8 @@ import json
 import os
 import csv
 
+from market_scanner.scanner import run_scan as real_run_scan
+
 # Load journal notes
 def load_journal():
     try:
@@ -246,7 +248,7 @@ def run_scan(watchlist, history):
     valid_watchlist = [s.strip().upper() for s in (watchlist or []) if isinstance(s, str) and s.strip()]
     new_signals = [generate_signal_for_symbol(symbol) for symbol in valid_watchlist]
     new_history = history + new_signals
-    performance = calculate_performance_metrics(new_history)
+    performance = calculate_performance_metrics(new_signals)
     return new_signals, new_history, performance
 
 
@@ -317,7 +319,7 @@ st.error("""
 """)
 
 st.subheader("Start a New Scan")
-st.info("👋 New here? Start by running a scan. Then review the signals before opening any pretend trades.")
+
 st.write("Click the button below to scan your current watchlist and update the latest signals.")
 
 if st.button("🔍 Scan Markets", type="primary", use_container_width=True, key="top_scan_button"):
@@ -341,69 +343,117 @@ else:
 
 st.info("This is an early demo version for learning. Scan results are generated from the current watchlist and pretend market data only. No broker is connected and no live trading is included.")
 
-st.subheader("How to start")
-st.write("1. Add symbols to the Watchlist section below so the dashboard knows what to follow.")
-st.write("2. Click 'Scan Markets' to update the latest signals and refresh the tables on this page.")
-st.write("3. Use 'Explain This Signal' to learn why a signal appeared and what risks to watch.")
-st.write("4. Review the warning messages before entering any pretend trades.")
-st.write("5. Use the Paper Trading section to simulate a trade with pretend money.")
-st.write("6. Check Open Pretend Trades, Closed Pretend Trades, and Performance Analytics to learn from the results.")
+st.markdown("""
+<div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
+<h2>👋 New here? This is where to start</h2>
+</div>
+""", unsafe_allow_html=True)
 
-st.subheader("Reset / Demo Controls")
-st.write("Use these buttons to keep the demo safe and easy to restart.")
-if st.button("Reset watchlist to beginner defaults"):
-    default_watchlist = ["AAPL", "GOOGL", "TSLA", "MSFT", "AMZN", "BTC-USD", "ETH-USD"]
-    st.session_state.watchlist = default_watchlist
-    st.session_state.watchlist_edit = ", ".join(default_watchlist)
-    watchlist = st.session_state.watchlist
-    st.success("Watchlist has been reset to beginner defaults.")
+st.subheader("What is this?")
+st.write("This scanner looks at a list of stocks and cryptocurrencies and highlights anything that may be interesting.")
+st.write("It does not buy or sell anything. It simply highlights things that may be worth investigating.")
 
-if st.button("Clear scan results"):
-    st.session_state.signals = []
-    st.session_state.history = []
-    st.session_state.performance = {"total_signals": 0, "win_rate": 0.0, "total_return": 0.0}
-    signals = []
-    history = []
-    performance = st.session_state.performance
-    st.success("Scan results are cleared for this session.")
+st.subheader("What does a scan do?")
+st.write("When you click Scan Markets, the scanner checks everything in your watchlist and creates signals.")
 
-clear_portfolio_confirm = st.checkbox("I understand this will clear the paper portfolio", key="confirm_clear_portfolio")
-if st.button("Clear paper portfolio"):
-    if clear_portfolio_confirm:
-        st.session_state.portfolio = default_portfolio()
-        save_portfolio(st.session_state.portfolio)
-        portfolio = st.session_state.portfolio
-        st.success("Paper portfolio has been cleared.")
-    else:
-        st.warning("Please confirm before clearing the paper portfolio.")
+st.write("After scanning, you will see signals.  A signal is the scanner's opinion about what it currently sees.")
 
-clear_feedback_confirm = st.checkbox("I understand this will clear saved tester feedback", key="confirm_clear_feedback")
-if st.button("Clear tester feedback"):
-    if clear_feedback_confirm:
-        if os.path.exists("tester_feedback.csv"):
-            os.remove("tester_feedback.csv")
-        st.success("Tester feedback has been cleared.")
-    else:
-        st.warning("Please confirm before clearing tester feedback.")
+st.markdown("""
+**🟢 Buy** = the scanner thinks market conditions currently look positive   
+**🔴 Sell** = the scanner thinks market conditions currently look negative.  
+**⚪ Hold** = the scanner cannot see a strong reason to buy or sell right now
+""")
+
+st.markdown("""
+Signals are not instructions.  
+They can be wrong.  
+They are designed to help you learn and investigate ideas
+""")
+        
+
+st.markdown("""
+<div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
+<h3>⭐ New User? Focus on these 5 steps first.</h2>
+</div>
+""", unsafe_allow_html=True)
+st.subheader("💡 What should I do first?")
+
+st.markdown("""
+1. Click Scan Markets  
+2. Read the signals that appear.    
+3. Click 'Explain this Signal'.    
+4. Open a Pretend Trade if you understand it.  
+5. Review the result later.  
+That's all you need to get started.
+""")
+
+st.subheader("What is a Signal?")
+st.markdown("""
+A signal is a suggestion generated by the scanner.  
+Signals can be:   
+- Buy = the scanner thinks an asset may be worth investigating further.  
+- Sell = the scanner thinks an asset may be weakening.  
+- Hold = the scanner cannot currently see a strong Buy or Sell opportunity.  
+""")
+
+
+st.subheader("What is a Watchlist?")
+st.markdown("""
+A watchlist is simply a list of stocks or cryptocurrencies you want the scanner to check.  
+Think of it as a favourites list.  
+""")
+
+st.subheader("What is a Pretend Trade?")
+st.write("A Pretend Trade lets you practice buying and selling without risking real money. It helps you learn how the scanner works before making real investing decisions.")
+
+st.subheader("What is Paper Trading?")
+st.write("Paper Trading means practising investing without using real money.")
+st.write("You can open pretend trades, track how they perform, and learn how the scanner works without risking any real money.")
+st.write("It is designed to help beginners build confidence before making real investing decisions")
+
+st.subheader("What is 'Explain this Signal'")
+st.write("This button explains why the scanner generated a signal and what risks you should think about.")
+
+st.subheader("What is a Portfolio?")
+st.write("A portfolio is simply the collection of pretend trades you have opened. The dashboard tracks whether those trades are gaining or losing value over time.")
+st.markdown("""
+<div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
+<h3>⭐ Understanding your Dashboard ⭐</h2>
+</div>
+""", unsafe_allow_html=True)
+
+
 
 # App title
-st.markdown("**Welcome!** This dashboard helps beginners like you understand market signals. It shows buy/sell/hold recommendations for stocks based on data analysis. Everything is explained in simple terms below.")
+st.markdown("""
+**Welcome!** This dashboard helps beginners like you understand market signals.  
+It shows buy/sell/hold recommendations for stocks based on data analysis.  
+The sections below explain each part of the dashboard in plain English.  
+""")
 
 # Disclaimer reminder
 st.warning("This tool is educational only, paper trading only, and does not connect to a broker. Always do your own research before using real money.")
 
 
 # Performance summary cards
+st.subheader("📊 Quick Dashboard Summary")
+st.markdown("""
+These three numbers give you a quick snapshot of what the scanner has found so far.  
+These numbers describe the latest scan results, not how much money you have made or lost.
+- Total Signals tells you how many Buy, Sell, or Hold signals were found when the scanner checked your watchlist.
+- Buy Signal Rate tells you what percentage of the latest signals were Buy signals.  
+- Total Return will become more useful once the pretend trading feature has been developed further.  
+""")
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Total Signals", performance["total_signals"])
-    st.write("**Total Signals:** How many recommendations the scanner has generated.")
+    st.write("**Total Signals:** How many Buy, Sell, or Hold suggestions the scanner found in the latest scan.")
 with col2:
-    st.metric("Win Rate (%)", f"{performance['win_rate']:.1f}")
-    st.write("**Win Rate:** The percentage of closed pretend trades that ended in profit.")
+    st.metric("Buy Signal Rate (%)", f"{performance['win_rate']:.1f}")
+    st.write("**Buy Signal Rate:** The percentage of latest scan results that are Buy signals.")
 with col3:
     st.metric("Total Return (%)", f"{performance['total_return']:.1f}")
-    st.write("**Total Return:** The overall profit or loss from your pretend trading portfolio.")
+    st.write("**Total Return:** Shows the overall gain or loss from your pretend portfolio. This feature is still being improved and may not yet be fully accurate..")
 
 # Charts for signals
 st.subheader("Signal Distribution")
@@ -1049,8 +1099,79 @@ if st.button("🔍 Scan Markets", type="primary", use_container_width=True):
     st.info("Scanning the current watchlist in paper trading mode")
     st.session_state.signals, st.session_state.history, st.session_state.performance = run_scan(st.session_state.watchlist, st.session_state.history)
  
-    st.success(f"Scan completed! Latest scan time: {st.session_state.last_scan_time}")
+    st.session_state.last_scan_time = datetime.now(ZoneInfo("Europe/London")).strftime("%Y-%m-%d %H:%M:%S")
     st.rerun()
+
+with st.expander("⚙️ Advanced / Reset Options"):
+    st.write("Need to start again?")
+    st.write("Choose which part of the demo you would like to reset.")
+
+    st.markdown("---")
+    st.subheader("Safe Resets")
+    st.write("The information removed here can be recreated at any time")
+
+    col1, col2 = st.columns([1, 3])
+
+    with col1:
+        if st.button("Reset Watchlist."):
+            default_watchlist = ["AAPL", "GOOGL", "TSLA", "MSFT", "AMZN", "BTC-USD", "ETH-USD"]
+            st.session_state.watchlist = default_watchlist
+            st.session_state.watchlist_edit = ", ".join(default_watchlist)
+            watchlist = st.session_state.watchlist
+            st.success("Watchlist has been reset to beginner defaults.")
+
+    with col2:
+        st.write("Returns the watchlist to the default assets")
+
+    col1, col2 = st.columns([1, 3])
+    
+    with col1:
+        if st.button("Clear scan results"):
+            st.session_state.signals = []
+            st.session_state.history = []
+            st.session_state.performance = {"total_signals": 0, "win_rate": 0.0, "total_return": 0.0}
+            signals = []
+            history = []
+            performance = st.session_state.performance
+            st.success("Scan results are cleared for this session.")
+    
+    with col2:
+        st.write("Removes the previous scan results")
+
+    st.markdown("---")
+    st.subheader("⚠️ Permanent Data Removal")
+    st.write("The information removed here cannot be recreated automatically.")
+   
+    
+    col1, col2 = st.columns([1, 3])
+
+    with col1:
+        if st.button("Clear paper portfolio"):
+            if clear_portfolio_confirm:
+                st.session_state.portfolio = default_portfolio()
+                save_portfolio(st.session_state.portfolio)
+                portfolio = st.session_state.portfolio
+                st.success("Paper portfolio has been cleared.")
+            else:
+                st.warning("Please confirm before clearing the paper portfolio.")
+    with col2:    
+        st.write("Removes all pretend trades and starts again")
+    clear_portfolio_confirm = st.checkbox("I understand this will clear the paper portfolio", key="confirm_clear_portfolio")
+
+    
+    col1, col2 = st.columns([1, 3])
+    
+    with col1:
+        if st.button("Clear tester feedback"):
+            if clear_feedback_confirm:
+                if os.path.exists("tester_feedback.csv"):
+                    os.remove("tester_feedback.csv")
+                st.success("Tester feedback has been cleared.")
+            else:
+                st.warning("Please confirm before clearing tester feedback.")
+    with col2:
+        st.write("Clears all tester feedback")
+    clear_feedback_confirm = st.checkbox("I understand this will clear saved tester feedback", key="confirm_clear_feedback")
 
 # Tester Feedback
 st.subheader("Tester Feedback")
