@@ -206,7 +206,28 @@ def build_scan_explanation(symbol, signal):
             "what_to_check": "Watch the asset for new developments, and keep your study focused on trend strength and risk."
         }
 
+def convert_real_signal_to_dashboard_signal(real_signal):
+    record = real_signal.to_record()
 
+    confidence = record.get("confidence", 0)
+    if confidence <= 1:
+        confidence = confidence * 100
+
+    reasons = record.get("reasons", "")
+    trade_idea = record.get("trade_idea", "")
+
+    explanation = trade_idea or "The real scanner found something worth watching."
+
+    return {
+        "symbol": record.get("symbol", "UNKNOWN"),
+        "signal": "WATCH",
+        "confidence": round(confidence, 1),
+        "explanation": explanation,
+        "timestamp": record.get("timestamp", ""),
+        "why_appeared": reasons or "The scanner detected market activity worth reviewing.",
+        "what_could_go_wrong": "Market conditions can change quickly. This signal is not a guarantee and should not be used on its own.",
+        "what_to_check": "Check the explanation, confidence, price movement, risk/reward, stop loss, and recent market context before making any decision.",
+    }
 def generate_signal_for_symbol(symbol):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     seed = abs(hash(symbol)) % 100
