@@ -10,6 +10,7 @@ import os
 import csv
 
 from market_scanner.scanner import run_scan as real_run_scan
+from market_scanner.config import Settings
 
 # Load journal notes
 def load_journal():
@@ -267,6 +268,7 @@ def calculate_performance_metrics(history):
 
 def run_scan(watchlist, history):
     valid_watchlist = [s.strip().upper() for s in (watchlist or []) if isinstance(s, str) and s.strip()]
+    st.session_state.test_watchlist = valid_watchlist
     new_signals = [generate_signal_for_symbol(symbol) for symbol in valid_watchlist]
     new_history = history + new_signals
     performance = calculate_performance_metrics(new_signals)
@@ -353,7 +355,8 @@ if st.button("🔍 Scan Markets", type="primary", use_container_width=True, key=
     st.session_state.last_scan_time = datetime.now(ZoneInfo("Europe/London")).strftime("%Y-%m-%d %H:%M:%S")
     st.success(f"Scan completed! Latest scan time: {st.session_state.last_scan_time}")
     st.rerun()
-
+if "test_watchlist" in st.session_state:
+    st.info(f"Real scanner test watchlist: {st.session_state.test_watchlist}")
 # Latest scan timestamp
 if st.session_state.last_scan_time:
     st.subheader(f"Latest Scan: {st.session_state.last_scan_time}")
@@ -461,20 +464,20 @@ st.subheader("📊 Quick Dashboard Summary")
 st.markdown("""
 These three numbers give you a quick snapshot of what the scanner has found so far.  
 These numbers describe the latest scan results, not how much money you have made or lost.
-- Total Signals tells you how many Buy, Sell, or Hold signals were found when the scanner checked your watchlist.
+- Latest Scan Signals tells you how many Buy, Sell, or Hold signals were found in the most recent scan.
 - Buy Signal Rate tells you what percentage of the latest signals were Buy signals.  
 - Total Return will become more useful once the pretend trading feature has been developed further.  
 """)
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.metric("Total Signals", performance["total_signals"])
-    st.write("**Total Signals:** How many Buy, Sell, or Hold suggestions the scanner found in the latest scan.")
+    st.metric("Latest Scan Signals", performance["total_signals"])
+    st.write("**Latest Scan Signals:** How many Buy, Sell, Hold, or Watch signals the scanner found in the most recent scan.")
 with col2:
     st.metric("Buy Signal Rate (%)", f"{performance['win_rate']:.1f}")
     st.write("**Buy Signal Rate:** The percentage of latest scan results that are Buy signals.")
 with col3:
-    st.metric("Total Return (%)", f"{performance['total_return']:.1f}")
-    st.write("**Total Return:** Shows the overall gain or loss from your pretend portfolio. This feature is still being improved and may not yet be fully accurate..")
+    st.metric("Paper Return (%)", f"{performance['total_return']:.1f}")
+    st.write("**Paper Return:** This will show pretend portfolio performance once the paper trading feature is fully connected.")
 
 # Charts for signals
 st.subheader("Signal Distribution")
