@@ -182,7 +182,6 @@ def get_live_price(symbol):
             data.columns = data.columns.get_level_values(0)
 
         latest_close = data["Close"].dropna().iloc[-1]
-        print(symbol, latest_close)
         return float(latest_close)
 
     except Exception:
@@ -809,7 +808,16 @@ unrealised_pnl = sum(calculate_position_metrics(pos)["unrealised_pnl"] for pos i
 realised_pnl = sum(pos.get("realised_pnl", 0.0) for pos in portfolio["closed_positions"])
 total_value = starting_cash + unrealised_pnl + realised_pnl
 total_return_pct = ((total_value - starting_cash) / starting_cash * 100) if starting_cash else 0.0
+portfolio.setdefault("balance_history", [])
 
+latest_balance = portfolio["balance_history"][-1] if portfolio["balance_history"] else None
+
+if latest_balance is None or latest_balance.get("balance") != total_value:
+    portfolio["balance_history"].append({
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "balance": total_value,
+    })
+    save_portfolio(portfolio)
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Open Trades", open_count)
