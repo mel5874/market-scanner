@@ -734,7 +734,21 @@ if portfolio["positions"]:
             st.write(f"Current: {format_currency(metrics['current_price'])}")
             st.write(f"Quantity: {pos['quantity']}")
         with col2:
-            st.write(f"Unrealised P/L: {format_currency(metrics['unrealised_pnl'])} ({format_percentage(metrics['unrealised_pct'])})")
+            if metrics["unrealised_pnl"] > 0:
+                st.success(
+                    f"Unrealised P/L: {format_currency(metrics['unrealised_pnl'])} "
+                    f"({format_percentage(metrics['unrealised_pct'])})"
+    )
+            elif metrics["unrealised_pnl"] < 0:
+                st.error(
+                    f"Unrealised P/L: {format_currency(metrics['unrealised_pnl'])} "
+                    f"({format_percentage(metrics['unrealised_pct'])})"
+    )
+            else:
+                st.info(
+                    f"Unrealised P/L: {format_currency(metrics['unrealised_pnl'])} "
+                    f"({format_percentage(metrics['unrealised_pct'])})"
+    )
             st.write(f"Starting Value: {format_currency(metrics['starting_value'])}")
             st.write(f"Current Value: {format_currency(metrics['current_value'])}")
         
@@ -857,7 +871,7 @@ with col3:
     st.metric("Number of Closed Trades", closed_count)
     st.write("**Number of closed trades:** Pretend positions you've finished.")
     st.metric("Win Rate %", f"{win_rate:.1f}%")
-    st.write("**Win rate:** Percentage of closed trades that made money.")
+    st.write("**Win rate:** Percentage of closed trades that closed with a profit. Break-even trades are not counted as wins.")
     st.metric("Average Winning Trade", format_currency(avg_winning_trade))
     st.write("**Average winning trade:** Average profit from trades that made money.")
     st.metric("Average Losing Trade", format_currency(avg_losing_trade))
