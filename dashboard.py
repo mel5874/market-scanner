@@ -828,10 +828,14 @@ else:
     best_trade = 0.0
     worst_trade = 0.0
 
+cash_balance = portfolio.get("cash_balance", starting_cash)
+money_invested = sum(calculate_position_metrics(pos)["current_value"] for pos in portfolio["positions"])
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Starting Pretend Balance", format_currency(starting_cash))
     st.write("**Starting pretend balance:** The fake money you began with (£10,000).")
+    st.metric("Available Cash", format_currency(cash_balance))
+    st.write("**Available cash:** Fake money not currently tied up in open trades.")
     st.metric("Current Pretend Portfolio Value", format_currency(total_value))
     st.write("**Current pretend portfolio value:** Your total fake money now, including open trades.")
     st.metric("Total Pretend Profit/Loss", format_currency(total_value - starting_cash))
@@ -839,6 +843,10 @@ with col1:
 with col2:
     st.metric("Total Return %", format_percentage(total_return_pct))
     st.write("**Total return %:** The percentage change in your fake money.")
+
+    st.metric("Money Invested", format_currency(money_invested))
+    st.write("**Money invested:** Current value of your open pretend trades.")
+
     st.metric("Realised Profit/Loss", format_currency(realised_pnl))
     st.write("**Realised profit/loss:** Gains or losses from closed pretend trades.")
     st.metric("Unrealised Profit/Loss", format_currency(unrealised_pnl))
