@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import yfinance as yf
 from collections import defaultdict
 import plotly.express as px
 import plotly.graph_objects as go
@@ -38,6 +39,7 @@ def save_journal(journal):
 def default_portfolio():
     return {
         "starting_cash": 10000.0,
+        "cash_balance": 10000.0,
         "positions": [],
         "closed_positions": [],
         "trade_history": [],
@@ -49,7 +51,9 @@ def load_portfolio():
     try:
         if os.path.exists("portfolio.json"):
             with open("portfolio.json", "r") as f:
-                return json.load(f)
+                portfolio = json.load(f)
+                portfolio.setdefault("cash_balance", portfolio.get("starting_cash", 10000.0))
+                return portfolio
     except json.JSONDecodeError:
         st.warning("⚠️ The portfolio file is damaged. Starting a fresh portfolio.")
         return default_portfolio()
@@ -160,24 +164,29 @@ def save_tester_feedback(entry):
 
 
 def get_live_price(symbol):
-    prices = {
-        "AAPL": 170.50,
-        "GOOGL": 2850.75,
-        "TSLA": 980.20,
-        "MSFT": 335.60,
-        "AMZN": 142.30,
-        "SPY": 445.10,
-        "QQQ": 360.80,
-        "BTC-USD": 67000.00,
-        "ETH-USD": 3300.00,
-        "XRP": 0.54,
-        "SOL-USD": 120.00,
-        "NVDA": 460.30,
-        "ADA": 0.40,
-        "VTI": 210.15,
-        "IWM": 214.30,
-    }
-    return prices.get(symbol, 100.0)
+    try:
+        data = yf.download(
+            symbol,
+            period="5d",
+            interval="1d",
+            progress=False,
+            auto_adjust=False,
+            group_by="column",
+            threads=False,
+        )
+
+        if data.empty:
+            return 100.0
+
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = data.columns.get_level_values(0)
+
+        latest_close = data["Close"].dropna().iloc[-1]
+        print(symbol, latest_close)
+        return float(latest_close)
+
+    except Exception:
+        return 100.0
 
 
 def get_default_watchlist():
@@ -691,9 +700,24 @@ if watchlist:
             "quantity": trade_quantity,
             "starting_value": starting_value,
         }
-        portfolio["positions"].append(new_position)
-        save_portfolio(portfolio)
-        st.success(f"Simulated {trade_action} of {trade_quantity} shares of {trade_symbol} at {format_currency(entry_price)} based on {trade_signal_type} signal")
+        cash_balance = portfolio.get("cash_balance", portfolio.get("starting_cash", 10000.0))
+
+        if trade_action == "BUY" and starting_value > cash_balance:
+            st.error(
+                f"Not enough paper cash. This trade costs {format_currency(starting_value)}, "
+                f"but you only have {format_currency(cash_balance)} available."
+            )
+        else:
+            if trade_action == "BUY":
+                portfolio["cash_balance"] = cash_balance - starting_value
+
+            portfolio["positions"].append(new_position)
+            save_portfolio(portfolio)
+
+            st.success(
+                f"Simulated {trade_action} of {trade_quantity} shares of {trade_symbol} "
+                f"at {format_currency(entry_price)} based on {trade_signal_type} signal"
+            )
 else:
     st.info("The paper trading controls below will appear after you add symbols to your watchlist.")
 
