@@ -24,6 +24,8 @@ def run_scan(settings: Settings | None = None, send_alerts: bool = True) -> list
     logger.info("Starting scan in %s mode for %d symbols", safety_report.mode, len(settings.watchlist))
     fetcher = MarketDataFetcher(period=settings.data_period, interval=settings.data_interval)
     market_data = fetcher.fetch_watchlist(settings.watchlist)
+    print("WATCHLIST:", settings.watchlist)
+    print("DATA RECEIVED:", len(market_data))
     logger.info("Fetched data for %d/%d symbols", len(market_data), len(settings.watchlist))
 
     ranked = rank_signals(detect_signals(market_data, settings))
@@ -48,4 +50,4 @@ def run_scan(settings: Settings | None = None, send_alerts: bool = True) -> list
         logger.info("No alert sent because no signal met the configured threshold")
     else:
         logger.info("Alert delivery skipped by caller")
-    return logged
+    return ranked

@@ -136,6 +136,8 @@ def close_portfolio_position(portfolio, index, reason):
         "realised_pct": realised_pct,
         "closure_reason": reason,
     })
+    current_value = current_price * position.get("quantity", 0)
+    portfolio["cash_balance"] = portfolio.get("cash_balance", portfolio.get("starting_cash", 10000.0)) + current_value
     save_portfolio(portfolio)
     return closed_position
 
@@ -277,7 +279,14 @@ def calculate_performance_metrics(history):
 def run_scan(watchlist, history):
     valid_watchlist = [s.strip().upper() for s in (watchlist or []) if isinstance(s, str) and s.strip()]
     st.session_state.test_watchlist = valid_watchlist
-    new_signals = [generate_signal_for_symbol(symbol) for symbol in valid_watchlist]
+    try:
+        settings = Settings(watchlist=valid_watchlist)
+        # settings.watchlist = valid_watchlist
+        real_signals = real_run_scan(settings=settings, send_alerts=False)
+        new_signals = [convert_real_signal_to_dashboard_signal(signal) for signal in real_signals]
+    except Exception as e:
+        st.error(f"Real scanner failed: {str(e)}")
+        new_signals = []
     new_history = history + new_signals
     performance = calculate_performance_metrics(new_signals)
     return new_signals, new_history, performance
@@ -806,7 +815,7 @@ open_count = len(portfolio["positions"])
 closed_count = len(portfolio["closed_positions"])
 unrealised_pnl = sum(calculate_position_metrics(pos)["unrealised_pnl"] for pos in portfolio["positions"])
 realised_pnl = sum(pos.get("realised_pnl", 0.0) for pos in portfolio["closed_positions"])
-total_value = starting_cash + unrealised_pnl + realised_pnl
+total_value = portfolio.get("cash_balance", starting_cash) + sum(calculate_position_metrics(pos)["current_value"] for pos in portfolio["positions"])
 total_return_pct = ((total_value - starting_cash) / starting_cash * 100) if starting_cash else 0.0
 portfolio.setdefault("balance_history", [])
 
@@ -1222,6 +1231,9 @@ with st.expander("⚙️ Advanced / Reset Options"):
    
     
     col1, col2 = st.columns([1, 3])
+    with col2:    
+        st.write("Removes all pretend trades and starts again")
+    clear_portfolio_confirm = st.checkbox("I understand this will clear the paper portfolio", key="confirm_clear_portfolio")
 
     with col1:
         if st.button("Clear paper portfolio"):
@@ -1232,12 +1244,13 @@ with st.expander("⚙️ Advanced / Reset Options"):
                 st.success("Paper portfolio has been cleared.")
             else:
                 st.warning("Please confirm before clearing the paper portfolio.")
-    with col2:    
-        st.write("Removes all pretend trades and starts again")
-    clear_portfolio_confirm = st.checkbox("I understand this will clear the paper portfolio", key="confirm_clear_portfolio")
+    
 
     
     col1, col2 = st.columns([1, 3])
+    with col2:
+        st.write("Clears all tester feedback")
+    clear_feedback_confirm = st.checkbox("I understand this will clear saved tester feedback", key="confirm_clear_feedback")
     
     with col1:
         if st.button("Clear tester feedback"):
@@ -1247,9 +1260,7 @@ with st.expander("⚙️ Advanced / Reset Options"):
                 st.success("Tester feedback has been cleared.")
             else:
                 st.warning("Please confirm before clearing tester feedback.")
-    with col2:
-        st.write("Clears all tester feedback")
-    clear_feedback_confirm = st.checkbox("I understand this will clear saved tester feedback", key="confirm_clear_feedback")
+    
 
 # Tester Feedback
 st.subheader("Tester Feedback")

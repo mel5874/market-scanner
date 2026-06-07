@@ -1,0 +1,50 @@
+2026-06-07 19:09:36,278 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:09:38,267 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:09:38,331 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:09:38,348 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:09:38,349 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:12:14,644 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:12:16,300 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:12:16,346 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:12:16,350 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:12:16,350 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:16:10,734 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:16:12,335 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:16:12,362 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:16:12,367 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:16:12,367 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:22:40,587 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:22:42,134 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:22:42,176 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:22:42,179 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:22:42,179 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:23:21,918 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:23:23,440 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:23:23,470 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:23:23,472 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:23:23,473 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:24:54,136 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:24:56,358 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:24:56,389 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:24:56,393 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:24:56,394 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:25:37,265 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:25:47,781 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:25:47,835 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:25:47,841 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:25:47,841 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:28:32,657 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:28:37,448 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:28:37,500 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:28:37,507 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:28:37,508 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:31:03,213 INFO [market_scanner] Starting scan in paper mode for 6 symbols
+2026-06-07 19:31:04,605 INFO [market_scanner] Fetched data for 6/6 symbols
+2026-06-07 19:31:04,638 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-07 19:31:04,641 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-07 19:31:04,642 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:54:25,888 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-07 19:54:28,759 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-07 19:54:28,821 INFO [market_scanner] Detected 5 signals; 1 met minimum score 55
+2026-06-07 19:54:28,832 INFO [market_scanner] Saved 1 signal(s) to SQLite and CSV logs
+2026-06-07 19:54:28,832 INFO [market_scanner] Alert delivery skipped by caller
