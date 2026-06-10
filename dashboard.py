@@ -178,7 +178,7 @@ def get_live_price(symbol):
         )
 
         if data.empty:
-            return 100.0
+            return None 
 
         if isinstance(data.columns, pd.MultiIndex):
             data.columns = data.columns.get_level_values(0)
@@ -187,7 +187,7 @@ def get_live_price(symbol):
         return float(latest_close)
 
     except Exception:
-        return 100.0
+        return None 
 
 
 def get_default_watchlist():
@@ -220,7 +220,7 @@ def build_scan_explanation(symbol, signal):
 def convert_real_signal_to_dashboard_signal(real_signal):
     record = real_signal.to_record()
 
-    confidence = record.get("confidence", 0)
+    confidence = record.get("score", record.get("confidence", 0))
     if confidence <= 1:
         confidence = confidence * 100
 
@@ -271,8 +271,8 @@ def calculate_performance_metrics(history):
     if total_signals == 0:
         return {"total_signals": 0, "win_rate": 0.0, "total_return": 0.0}
 
-    buy_signals = sum(1 for s in history if s.get("signal") == "BUY")
-    win_rate = buy_signals / total_signals * 100
+    watch_signals = sum(1 for s in history if s.get("signal") == "WATCH")
+    win_rate = watch_signals / total_signals * 100
     return {"total_signals": total_signals, "win_rate": win_rate, "total_return": 0.0}
 
 
@@ -482,19 +482,19 @@ st.markdown("""
 These three numbers give you a quick snapshot of what the scanner has found so far.  
 These numbers describe the latest scan results, not how much money you have made or lost.
 - Latest Scan Signals tells you how many Buy, Sell, or Hold signals were found in the most recent scan.
-- Buy Signal Rate tells you what percentage of the latest signals were Buy signals.  
+- Watch Signal Rate tells you what percentage of the latest scan results were worth reviewing.
 - Total Return will become more useful once the pretend trading feature has been developed further.  
 """)
 col1, col2, col3 = st.columns(3)
-with col1:
+with col1: 
     st.metric("Latest Scan Signals", performance["total_signals"])
     st.write("**Latest Scan Signals:** How many Buy, Sell, Hold, or Watch signals the scanner found in the most recent scan.")
 with col2:
-    st.metric("Buy Signal Rate (%)", f"{performance['win_rate']:.1f}")
-    st.write("**Buy Signal Rate:** The percentage of latest scan results that are Buy signals.")
+    st.metric("Watch Signal Rate (%)", f"{performance['win_rate']:.1f}")
+    st.write("**Watch Signal Rate:** The percentage of latest scan results that the scanner marked as worth reviewing.")
 with col3:
-    st.metric("Paper Return (%)", f"{performance['total_return']:.1f}")
-    st.write("**Paper Return:** This will show pretend portfolio performance once the paper trading feature is fully connected.")
+    st.metric("Paper Return", "Not connected yet")
+    st.write("**Paper Return:** Placeholder only. This is not currently connected to live paper trading performance.")
 
 # Charts for signals
 st.subheader("Signal Distribution")
@@ -507,10 +507,11 @@ else:
     st.warning("Not enough fresh scan data yet — run more scans to build this view.")
 
 # Confidence scores chart
-st.subheader("Confidence Scores")
-st.write("**What is this chart?** This scatter plot shows each stock's signal confidence from the latest scan. Bigger dots mean higher confidence.")
+st.subheader("Signal Scores")
+st.write("**What is this chart?** This shows the scanner score for each latest signal. Higher scores mean the scanner found more reasons to review that asset.")
 if signals:
-    fig2 = px.scatter(pd.DataFrame(signals), x="symbol", y="confidence", color="signal", size="confidence", title="Signal Confidence")
+    st.write(pd.DataFrame(signals)[["symbol", "signal", "confidence"]])
+    fig2 = px.scatter(pd.DataFrame(signals), x="symbol", y="confidence", color="signal", size="confidence", title="Signal Scores")
     st.plotly_chart(fig2)
 else:
     st.warning("Not enough fresh scan data yet — run more scans to build this view.")

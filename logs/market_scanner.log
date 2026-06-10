@@ -48,3 +48,68 @@
 2026-06-07 19:54:28,821 INFO [market_scanner] Detected 5 signals; 1 met minimum score 55
 2026-06-07 19:54:28,832 INFO [market_scanner] Saved 1 signal(s) to SQLite and CSV logs
 2026-06-07 19:54:28,832 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-07 19:58:42,944 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-07 19:58:45,171 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-07 19:58:45,251 INFO [market_scanner] Detected 5 signals; 1 met minimum score 55
+2026-06-07 19:58:45,266 INFO [market_scanner] Saved 1 signal(s) to SQLite and CSV logs
+2026-06-07 19:58:45,266 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-09 13:07:46,790 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-09 13:07:50,332 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-09 13:07:50,425 INFO [market_scanner] Detected 3 signals; 0 met minimum score 55
+2026-06-09 13:07:50,436 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-09 13:07:50,437 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 20:43:11,936 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 20:43:15,930 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 20:43:15,945 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 20:43:15,948 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 20:43:15,948 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 20:44:20,695 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 20:44:24,412 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 20:44:24,422 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 20:44:24,423 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 20:44:24,423 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 20:51:36,384 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 20:51:38,618 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 20:51:38,634 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 20:51:38,636 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 20:51:38,636 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:00:54,651 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:00:57,833 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:00:57,844 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:00:57,846 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:00:57,847 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:04:42,550 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:04:45,503 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:04:45,518 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:04:45,520 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:04:45,520 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:18:26,303 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:18:41,464 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:18:41,481 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:18:41,485 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:18:41,485 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:43:17,489 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:43:19,486 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:43:19,503 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:43:19,506 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:43:19,506 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:43:31,125 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:43:32,874 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:43:32,890 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:43:32,893 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:43:32,893 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:43:58,918 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:44:01,596 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:44:01,612 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:44:01,614 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:44:01,614 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:51:34,179 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:51:36,043 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:51:36,059 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:51:36,061 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:51:36,061 INFO [market_scanner] Alert delivery skipped by caller
+2026-06-10 21:52:15,345 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-06-10 21:52:17,143 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-06-10 21:52:17,159 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
+2026-06-10 21:52:17,160 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
+2026-06-10 21:52:17,160 INFO [market_scanner] Alert delivery skipped by caller
