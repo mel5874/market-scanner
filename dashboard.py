@@ -1611,10 +1611,67 @@ if all_signals_for_explain:
     selected_explain = st.selectbox("Choose a signal to explain", signal_options, key="explain_select")
 
     if selected_explain:
-        selected_data = next(s for s in all_signals_for_explain if f"{s['symbol']} ({s['signal']})" == selected_explain)
-        st.write(f"**Why did the {selected_data['signal']} signal for {selected_data['symbol']} appear?** {selected_data['why_appeared']}")
-        st.write(f"**What could go wrong?** {selected_data['what_could_go_wrong']}")
-        st.write(f"**What should I check before a paper trade?** {selected_data['what_to_check']}")
+        selected_data = next(
+            s for s in all_signals_for_explain
+            if f"{s['symbol']} ({s['signal']})" == selected_explain
+            )
+
+        signal_name = selected_data["signal"].upper()
+        symbol = selected_data["symbol"]
+
+        if signal_name == "BUY":
+            signal_icon = "🟢"
+        elif signal_name == "SELL":
+            signal_icon = "🔴"
+        else:
+            signal_icon = "⚪"
+
+        st.subheader(f"{signal_icon} {signal_name} — {symbol}")
+
+        st.markdown("### ✅ Why Codex noticed this")
+        st.write(selected_data["why_appeared"])
+
+        st.divider()
+
+        st.markdown("### ⚠️ What could make this fail?")
+        st.write(selected_data["what_could_go_wrong"])
+
+        st.divider()
+
+        st.markdown("### 🔍 What should I check next?")
+        st.write(selected_data["what_to_check"])
+        """)
+
+        st.divider()
+
+        st.markdown("### 📚 What should I learn?")
+
+        if signal_name == "BUY":
+            st.markdown("""
+        A BUY signal does not guarantee that the price will rise.
+
+        It means Codex found enough positive evidence for this asset to deserve a closer look.
+            """)
+
+        elif signal_name == "SELL":
+            st.markdown("""
+        A SELL signal does not guarantee that the price will continue falling.
+
+        It means Codex found signs that conditions currently look weaker and may deserve further investigation.
+            """)
+
+        else:
+            st.markdown("""
+        A HOLD signal is not a useless result.
+
+        It means Codex cannot currently see enough evidence for a strong BUY or SELL signal.
+            """)
+
+            st.markdown("""
+        The goal is not to follow the signal blindly.
+
+        The goal is to understand why it appeared and decide whether the evidence makes sense to you.
+            """)
 else:
     st.info("No signals are available yet. Run a scan to generate signal explanations.")
 

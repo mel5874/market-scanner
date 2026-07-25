@@ -113,3 +113,8 @@
 2026-06-10 21:52:17,159 INFO [market_scanner] Detected 2 signals; 0 met minimum score 55
 2026-06-10 21:52:17,160 INFO [market_scanner] Saved 0 signal(s) to SQLite and CSV logs
 2026-06-10 21:52:17,160 INFO [market_scanner] Alert delivery skipped by caller
+2026-07-23 19:48:38,456 INFO [market_scanner] Starting scan in paper mode for 9 symbols
+2026-07-23 19:48:41,231 INFO [market_scanner] Fetched data for 9/9 symbols
+2026-07-23 19:48:41,245 INFO [market_scanner] Detected 3 signals; 1 met minimum score 55
+2026-07-23 19:48:41,248 INFO [market_scanner] Saved 1 signal(s) to SQLite and CSV logs
+2026-07-23 19:48:41,248 INFO [market_scanner] Alert delivery skipped by caller
