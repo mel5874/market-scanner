@@ -348,19 +348,27 @@ portfolio = st.session_state.portfolio
 # App title
 st.title("Codex Market Scanner")
 
-st.error("""
-⚠️ TESTER / DEMO MODE
+st.markdown("""
+<div style="background:#e8f4ff; padding:20px; border-radius:10px;">
 
-- Educational and research purposes only
-- Not financial advice
-- Paper trading only
-- Signals may be inaccurate
-- Do not use this for live trading decisions
-""")
+<h3>🧪 Research Mode</h3>
+
+<p>Welcome back.</p>
+
+<p>Codex is currently running in paper trading mode.</p>
+
+<p>Today's scans are designed to help you learn, explore ideas and build confidence in the markets.</p>
+
+<p><strong>No real trades will be placed.</strong></p>
+
+<p>Take your time, stay curious, and remember that every scan is an opportunity to learn.</p>
+
+</div>
+""", unsafe_allow_html=True)
 
 st.subheader("Start a New Scan")
 
-st.write("Click the button below to scan your current watchlist and update the latest signals.")
+st.write("Ready to see what today's markets are doing? ")
 
 if st.button("🔍 Scan Markets", type="primary", use_container_width=True, key="top_scan_button"):
     with st.spinner("🔄 Scanning markets... Please wait."):
@@ -384,58 +392,500 @@ else:
 
 st.info("This is an early demo version for learning. Scan results are generated from the current watchlist and pretend market data only. No broker is connected and no live trading is included.")
 
+st.markdown(
+    """
+    <div style="background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;">
+    <h2>📚 Learn With Codex</h2>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 st.markdown("""
 <div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
-<h2>👋 New here? This is where to start</h2>
+<h3>⭐ New User? Read these first.</h2>
 </div>
 """, unsafe_allow_html=True)
+st.subheader("🌱 Start here")
 
-st.subheader("What is this?")
-st.write("This scanner looks at a list of stocks and cryptocurrencies and highlights anything that may be interesting.")
-st.write("It does not buy or sell anything. It simply highlights things that may be worth investigating.")
+st.markdown(
+    """
+    If you're new to investing, begin with Foundations 1 - 8.
 
-st.subheader("What does a scan do?")
-st.write("When you click Scan Markets, the scanner checks everything in your watchlist and creates signals.")
+    These explain what Codex is doing, what the signals mean, and how to interpret your results.  
 
-st.write("After scanning, you will see signals.  A signal is the scanner's opinion about what it currently sees.")
+    After that, return whenever you'd like to explore a topic in more detail. 
+    """
+)
+
+st.divider()
+
+with st.expander("🌱 Foundation 1"):
+
+    st.subheader("What does Codex actually do?")
+
+    st.write("⏱ 30 second read")
+
+    st.write(
+        "Codex scans every stock and cryptocurrency on your watchlist looking for interesting market behaviour.")
+
+    st.write(
+        "It does not buy or sell anything, and a signal is not an instruction. "
+        "Codex gives you a starting point for further learning and research."
+    )    
+
+    st.markdown("""
+        <div style="
+        background-color:#f4f8ec;
+        border-left:4px solid #8aae5a;
+        padding:14px 16px;
+        border-radius:8px;
+        margin-top:12px;
+        margin-bottom:12px;
+    ">
+        <strong>💡 Remember</strong><br><br>
+        Codex doesn't tell you what to buy.<br><br>
+        It helps you decide what deserves a closer look.
+        </div>
+        """,
+        unsafe_allow_html=True,
+        )
+
+
+st.divider()
+
+with st.expander("🌱 Foundation 2"):
+    st.subheader("What happens when I press Scan Markets?")
+
+    st.markdown("""
+    ⏱ 45 second read
+
+
+    When you press Scan Markets, Codex checks every stock and 
+    cryptocurrency on your current watchlist.
+
+
+    It then looks for patterns or market activity that may deserve 
+    a closer look and creates a signal if it finds something interesting.
+    """)
+
 
 st.markdown("""
-**🟢 Buy** = the scanner thinks market conditions currently look positive   
-**🔴 Sell** = the scanner thinks market conditions currently look negative.  
-**⚪ Hold** = the scanner cannot see a strong reason to buy or sell right now
-""")
+<p style="
+    color:#8AAE5A;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    margin-bottom:6px;
+">
+
+</p>
+""", unsafe_allow_html=True)
+
+st.divider()
+
+with st.expander("🌱 Foundation 3"):
+    st.subheader ("What do BUY, SELL and HOLD really mean? ")
+    st.write("⏱ 1 minute read")
+
+    st.markdown("""
+
+    | Signal | What it means |
+    |--------|---------------|
+    | 🟢 **BUY** | Codex thinks this asset currently looks interesting. |
+    | 🔴 **SELL** | Codex thinks this asset currently looks weak. |
+    | ⚪ **HOLD** | Codex can't currently see a strong Buy or Sell opportunity. |
+    """)
+
+    st.markdown("""
+    Signals are not instructions.  
+
+    They can be wrong.  
+
+    They are designed to help you learn and investigate ideas.
+
+    The signal reflects what Codex thinks **right now.** It can change as markets move
+    """)
 
 st.markdown("""
-Signals are not instructions.  
-They can be wrong.  
-They are designed to help you learn and investigate ideas
+<p style="
+    color:#8AAE5A;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    margin-bottom:6px;
+">
+</p>
+""", unsafe_allow_html=True)
+
+st.divider()
+
+with st.expander("🌱 Foundation 4"):
+    st.subheader("Why isn't this financial advice? ")
+    st.write("⏱ 1 minute read")
+
+    st.markdown("""
+Investing always involves uncertainty.
+
+No scanner, expert or computer can predict the future with complete accuracy.
+
+Codex analyses market data and highlights assets that may be worth investigating, but it never tells you what you should buy or sell.
+
+Every investment decision should be based on **your own research,** goals and attitude to risk.
+
+Think of Codex as a research assistant rather than as an adviser.
 """)
-        
+    st.markdown(
+        """
+        <div style="
+            background-color:#f4f8ec;
+            border-left:4px solid #8aae5a;
+            padding:14px 16px;
+            border-radius:8px;
+            margin-top:12px;
+            margin-bottom:12px;
+        ">
+            <strong>💡 Remember</strong><br><br>
+            Signals are a starting point, not a final decision.<br><br>
+            Always spend a few minutes understanding why a signal appeared before taking any action.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.subheader("🔍 That's why Codex explains every signal")
+
+    st.markdown(
+        """
+Instead of simply saying BUY or SELL, Codex is designed to explain:
+
+- why the signal appeared
+- which indicators contributed
+- what those indicators mean
+- what you might want to check next
+
+The goal isn't to replace your judgement.
+
+The goal is to help you become a more confident investor over time.
+        """
+    )
+
+st.divider()
+
+
+with st.expander("🌱 Foundation 5"):
+
+    st.subheader("What should I do after a scan?")
+    st.write("⏱️ 1 minute read")
+
+    st.markdown("""
+Treat every scan like a mini investigation.
+
+You don't need to buy or sell anything immediately.
+
+
+Work through this checklist:
+
+☐ Read the signal first.
+
+☐ Click **"Explain this Signal"**
+
+☐ Look at the indicators.
+
+☐ Decide whether it's worth investigating further.
+
+☐ Open a Pretend Trade if you want to practise.
+
+☐ Come back later and compare the outcome.
+""")
+
+    st.markdown(
+        """
+        <div style="
+            background-color:#f4f8ec;
+            border-left:4px solid #8aae5a;
+            padding:14px 16px;
+            border-radius:8px;
+            margin-top:12px;
+            margin-bottom:12px;
+        ">
+            <strong>💡 Remember</strong><br><br>
+            Not every scan leads to a trade.<br><br>
+            Sometimes the best decision is simply to learn why a signal appeared.<br><br>
+            Every scan—whether you trade or not—is another step towards becoming a more confident investor. <br><br>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.divider()
+
+
+
+with st.expander("🌱 Foundation 6"):
+
+    st.subheader("Confidence doesn't mean certainty")
+    st.write("⏱️ 45 second read")
+
+    st.markdown("""
+| ❌ Wrong mindset | ✅ Better mindset |
+|-----------------|------------------|
+| BUY means guaranteed profit | BUY means conditions currently look promising. |
+| SELL means panic | SELL means conditions currently look weaker. |
+| HOLD means useless | HOLD means nothing stands out right now. |
+
+A BUY signal is never a promise.
+
+It's simply Codex saying:
+
+**"This might be worth a closer look."**
+""")
+
+    st.markdown(
+        """
+<div style="
+    background-color:#f4f8ec;
+    border-left:4px solid #8aae5a;
+    padding:14px 16px;
+    border-radius:8px;
+    margin-top:12px;
+    margin-bottom:12px;
+">
+
+<strong>💡 Remember</strong><br><br>
+
+A good investor doesn't ask,
+<strong>"Will this definitely go up?"</strong><br>
+
+They ask,<br>
+
+<strong>"Does this deserve a closer look?"</strong>
+
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+st.divider()
+
+with st.expander("🌱 Foundation 7"):
+     st.subheader("Common beginner mistakes")
+     st.write("⏱️ 45 second read")
+
+
+
+     st.markdown("""
+     <div style="
+        background-color:#f4f8ec;
+        border-left:4px solid #8aae5a;
+        padding:14px 16px;
+        border-radius:8px;
+        margin-top:12px;
+        margin-bottom:12px;
+    ">
+<strong>⚠ Watch out for these common traps</strong><br><br>
+
+• Buying because of **one** signal instead of looking at the bigger picture.
+
+• Ignoring how much you could lose.
+
+• Chasing yesterday's winners because they've already gone up.
+
+• Making decisions based on excitement or fear. 
+
+• Expecting every trade to be profitable. 
+    </div>
+    **💡 Remember**<br><br>
+    Even experienced investors make losing trades.<br><br>
+    The goal isn't to be right every time.<br><br>
+    The goal is to make thoughtful decisions over and over again.
+    """,
+    unsafe_allow_html=True,
+)
+
+st.divider()
+
+with st.expander("🌱 Foundation 8"):
+     st.subheader("Questions to ask before opening a trade")
+     st.write("⏱️ 45 second read")
+
+     st.markdown("""
+Before opening a trade ask yourself...
+
+□ Why did Codex highlight this?
+
+□ Do I understand the signal?
+
+□ Am I buying because of evidence or excitement?
+
+□ What would make me change my mind?
+
+□ Am I comfortable with how much could I lose?
+
+□ Would I still make this trade if Codex hadn't shown it to me?
+
+  <div style="
+        background-color:#f4f8ec;
+        border-left:4px solid #8aae5a;
+        padding:14px 16px;
+        border-radius:8px;
+        margin-top:12px;
+        margin-bottom:12px;
+    ">
+    <strong>💡 Remember</strong><br><br>
+    You don't have to trade every opportunity.<br><br>
+    Sometimes the smartest decision is to close the app, keep learning, and wait for a setup you truly understand.
+    """,
+    unsafe_allow_html=True,
+)
+
+st.divider()
+
+
+st.subheader("🚀 Quick Start")
+st.write("⏱ 30 second read")
+
+st.markdown("""
+**Ready to try Codex?**
+Here's the simplest way to use it for the first time.
+""")
+
+st.divider()
+
+st.markdown("""
+**Step 1**
+
+🔍 Press **Scan Markets**
+
+Let Codex check every stock and cryptocurrency on your watchlist.
+""")
+
+st.divider()
+
+st.markdown("""
+**Step 2**
+
+📊 Open one interesting signal
+
+Don't worry about finding the "perfect" trade.
+
+Just pick one that catches your attention.
+""")
+
+st.divider()
+
+st.markdown("""
+**Step 3**
+
+🧠 Click **Explain this Signal**
+
+Read why Codex generated the signal and which indicators contributed.
+""")
+
+st.divider()
+
+st.markdown("""
+**Step 4**
+
+📈 Decide whether it's worth investigating further
+
+Remember, a signal is an invitation to learn - not an instruction to trade.
+""")
+
+st.divider()
+
+st.markdown("""
+**Step 5**
+
+🎮 Open a Pretend Trade
+
+Practise first.
+
+Watch what happens without risking any real money, then compare what actually happened with what Codex suggested.
+""")
+
+st.divider()
+
+st.markdown(
+    """
+
+<div style="
+    background-color:#f4f8ec;
+    border-left:4px solid #8aae5a;
+    padding:14px 16px;
+    border-radius:8px;
+    margin-top:12px;
+    margin-bottom:12px;
+    ">
+    <strong>💡 Remember</strong><br><br>
+    The goal isn't to find your first winning trade. <br><br>
+    The goal is to understand why Codex found the opportunity. 
+    """,
+    unsafe_allow_html=True,
+)
+st.write("**🌱 After a few Pretend Trades, you'll naturally start recognising patterns and your confidence will grow naturally.**")
+
+
+st.divider()
 
 st.markdown("""
 <div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
-<h3>⭐ New User? Focus on these 5 steps first.</h2>
+<h3>📘 Learn the Language</h2>
 </div>
 """, unsafe_allow_html=True)
-st.subheader("💡 What should I do first?")
-
-st.markdown("""
-1. Click Scan Markets  
-2. Read the signals that appear.    
-3. Click 'Explain this Signal'.    
-4. Open a Pretend Trade if you understand it.  
-5. Review the result later.  
-That's all you need to get started.
-""")
 
 st.subheader("What is a Signal?")
-st.markdown("""
-A signal is a suggestion generated by the scanner.  
-Signals can be:   
-- Buy = the scanner thinks an asset may be worth investigating further.  
-- Sell = the scanner thinks an asset may be weakening.  
-- Hold = the scanner cannot currently see a strong Buy or Sell opportunity.  
+buy_tab, sell_tab, hold_tab = st.tabs(
+    ["🟢 BUY", "🔴 SELL", "⚪ HOLD"]
+)
+with buy_tab:
+        st.markdown("""
+### 🟢 BUY
+
+A BUY signal does **not** mean:
+
+**"Buy this immediately."**
+
+It means Codex has noticed something that may be worth investigating further.
+
+Before making a decision, ask yourself:
+
+- why the signal appeared
+- which indicators contributed
+- whether the opportunity still makes sense to you
+- how much you could afford to lose
+
+A BUY signal is a starting point, not a promise.
 """)
+
+with sell_tab:
+    st.markdown("""
+### 🔴 SELL
+
+A SELL signal does **not** mean:
+
+**"Sell immediately."**
+
+It means Codex has noticed that market conditions currently look weaker than before.
+
+That may be worth investigating, but it does not automatically mean the asset will keep falling.
+
+Check the explanation, look at what changed, and make your own decision.
+""")
+
+with hold_tab:
+    st.markdown("""
+### ⚪ HOLD
+
+A HOLD signal means Codex cannot currently see a strong reason to buy or sell.
+
+That is not a useless result.
+
+Sometimes nothing clearly stands out, and waiting is the most sensible option.
+
+**Codex would rather say "nothing interesting right now" than pretend it knows what will happen next.**
+""")
+
+st.divider()
 
 
 st.subheader("What is a Watchlist?")
@@ -444,19 +894,408 @@ A watchlist is simply a list of stocks or cryptocurrencies you want the scanner 
 Think of it as a favourites list.  
 """)
 
+st.divider()
+
 st.subheader("What is a Pretend Trade?")
 st.write("A Pretend Trade lets you practice buying and selling without risking real money. It helps you learn how the scanner works before making real investing decisions.")
+
+st.divider()
 
 st.subheader("What is Paper Trading?")
 st.write("Paper Trading means practising investing without using real money.")
 st.write("You can open pretend trades, track how they perform, and learn how the scanner works without risking any real money.")
 st.write("It is designed to help beginners build confidence before making real investing decisions")
 
-st.subheader("What is 'Explain this Signal'")
-st.write("This button explains why the scanner generated a signal and what risks you should think about.")
+st.divider()
+
+st.subheader('What is "Explain This Signal"?')
+
+st.markdown("""
+**Explain This Signal** helps you understand why Codex generated a particular BUY, SELL or HOLD signal.
+
+It shows:
+
+- what Codex noticed
+- which indicators contributed
+- what those indicators mean
+- what you may want to investigate next
+
+It does not tell you what decision to make.
+
+It gives you the evidence behind the signal so you can make your own informed decision.
+""")
+
+st.divider()
 
 st.subheader("What is a Portfolio?")
-st.write("A portfolio is simply the collection of pretend trades you have opened. The dashboard tracks whether those trades are gaining or losing value over time.")
+st.markdown("""
+A Portfolio is where Codex keeps all of your Pretend Trades. 
+
+Your Portfolio helps you:
+
+- see whether your ideas would have made or lost money
+- compare different trades over time
+- learn which types of opportunities you understand best
+- build confidence before risking real money
+
+Your Portfolio isn't about making the biggest profit. 
+
+It's about becoming a better investor one trade at a time.
+"""
+)
+
+st.divider()
+
+st.markdown("""
+<div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
+<h3>📈 Learn by Example</h2>
+</div>
+""", unsafe_allow_html=True)
+
+st.subheader("Understanding Signal Types")
+
+buy_tab, sell_tab, hold_tab = st.tabs(
+    ["🟢 BUY Example", "🔴 SELL Example", "⚪ HOLD Example"]
+)
+with buy_tab:
+    st.subheader("🟢 BUY Example")
+
+    st.markdown("""
+1️⃣ What Codex saw
+
+Codex found several indicators becoming stronger at the same time.
+
+That made this asset worth highlighting for further investigation.
+""")
+
+    st.divider()
+
+    st.write("2️⃣ What this DOESN'T mean")
+
+    st.markdown(
+    """
+<div style="
+    background-color:#f4f8ec;
+    border-left:4px solid #8aae5a;
+    padding:14px 16px;
+    border-radius:8px;
+    margin-top:12px;
+    margin-bottom:12px;
+">
+<strong>💡 Remember</strong><br><br>
+A BUY signal is <strong>not</strong> saying:<br><br>
+<strong>"This will definately go up."</strong><br><br>
+It is saying:<br><br>
+<strong>"This deserves a closer look."</strong>
+
+</div>
+""",
+unsafe_allow_html=True,
+)
+
+    st.write("3️⃣ What should you do next?")
+
+    st.markdown("""
+- Read **Explain This Signal**
+- Look at which indicators contributed
+- Decide whether the explanation makes sense to you
+- Think about how much you could afford to lose
+- Only then decide whether it deserves further investigation
+""")
+
+    st.write("4️⃣ What did you learn?")
+
+    st.markdown("""
+Even if you decide **not** to open a Pretend Trade, the example has still been useful.
+
+You have practised reading a signal, checking the evidence and making your own decision.
+""")
+
+with sell_tab:
+    st.subheader("🔴 SELL Example")
+
+    st.markdown("""
+1️⃣ What Codex saw
+
+Codex noticed several indiciators becoming weaker at the same time. 
+
+That made this asset worth highlighting for further investigation. 
+""")
+
+    st.divider()
+
+    st.write("2️⃣ What this DOESN'T mean")
+
+    st.markdown(
+    """
+<div style="
+    background-color:#f4f8ec;
+    border-left:4px solid #8aae5a;
+    padding:14px 16px;
+    border-radius:8px;
+    margin-top:12px;
+    margin-bottom:12px;
+">
+<strong>💡 Remember</strong><br><br>
+A SELL signal is <strong>not</strong> saying:<br><br>
+<strong>"Sell everything immediately."</strong><br><br>
+It is saying:<br><br>
+<strong>"Conditions currently look weaker."</strong>
+
+</div>
+""",
+unsafe_allow_html=True,
+)
+
+    st.write("3️⃣ What should you do next?")
+
+    st.markdown("""
+- Read **Explain This Signal**
+- Look at which indicators weakened.
+- Decide whether the change makes sense.
+- Think about your own investment plan.
+- Only then decide whether any action is appropriate.
+""")
+
+    st.write("4️⃣ What did you learn?")
+
+    st.markdown("""
+Even if you decide to do nothing...
+
+....you've practised recognising when conditions become weaker instead of reacting emotionally.
+
+""")
+
+with hold_tab:
+    st.subheader("⚪ HOLD Example")
+
+    st.markdown("""
+1️⃣ What Codex saw
+
+None of the indicators were strong enough to produce a Buy or Sell signal. 
+
+Nothing particularly interesting stood out. 
+""")
+
+    st.divider()
+
+    st.write("2️⃣ What this DOESN'T mean")
+
+    st.markdown(
+    """
+<div style="
+    background-color:#f4f8ec;
+    border-left:4px solid #8aae5a;
+    padding:14px 16px;
+    border-radius:8px;
+    margin-top:12px;
+    margin-bottom:12px;
+">
+<strong>💡 Remember</strong><br><br>
+A HOLD signal is <strong>not</strong> saying:<br><br>
+<strong>"This asset is bad."</strong><br><br>
+It is saying:<br><br>
+<strong>"Nothing stands out right now."</strong>
+
+</div>
+""",
+unsafe_allow_html=True,
+)
+
+    st.write("3️⃣ What should you do next?")
+
+    st.markdown("""
+- Read the explanation anyway.
+- Notice why nothing triggered. 
+- Compare it with Buy and Sell examples. 
+- Learn what "normal" looks like.
+""")
+
+    st.write("4️⃣ What did you learn?")
+
+    st.markdown("""
+Sometimes the best investing decision...
+
+...is simply waiting. 
+
+Learning when **not** to trade is just as important as learning when to investigate further. 
+""")
+
+
+st.divider( )
+
+first_tab, losing_tab = st.tabs(
+    ["🎮 Learning with Winning Trades", "📉 Learning with Losing Trades"]
+)
+with first_tab:
+    st.subheader("🎮 Following a Pretend Trade")
+    st.write("Opening your First Pretend Trade...")
+
+    st.write("**1️⃣ What happened?**")
+
+    st.markdown("""
+    You decided this BUY signal looked interesting.
+
+    Instead of risking real money...
+
+    ...you opened a Pretend Trade. 
+    """)
+
+    st.divider()
+    
+    st.write("**2️⃣ What happens next?**")
+    st.markdown("""
+
+    Codex now watches the price. 
+
+    Every day you'll be able to see:
+
+    - whether your idea improved
+    - whether it weakened
+    - what happened after the signal appeared
+    """)
+
+    st.divider()
+
+    st.write("**3️⃣ What should you learn?**")
+    st.markdown("""
+
+    Don't judge yourself by profit.
+
+    Instead ask:
+
+    - Did I understand the signal?
+    - Did I notice the risks?
+    - Would I make the same decision again?
+    """)
+
+    st.divider()
+
+    st.write("**4️⃣ Why is this useful?**")
+    st.markdown("""
+
+    By repeating this process...
+
+    you'll gradually begin recognising good opportunities yourself. 
+        """)
+
+    st.subheader("⭐ Big Lesson")
+    st.markdown("""
+    **The goal isn't to make pretend money.**
+
+    It's to practice recognising opportunities, understsanding signals and building confidence before risking real money. 
+    """)
+
+    st.divider()
+
+
+with losing_tab:
+
+    st.subheader("📉 Learning from a Pretend Trade")
+
+    st.write("**1️⃣ What happened?**")
+
+    st.markdown("""
+You opened a Pretend Trade because the BUY signal looked promising.
+
+But this time...
+
+...the price moved down instead of up.
+""")
+
+    st.divider()
+
+    st.write("**2️⃣ What happens next?**")
+
+    st.markdown("""
+Codex keeps tracking the trade.
+
+Now you can see:
+
+- how much it fell
+- whether the signal eventually recovered
+- whether selling earlier or waiting longer would have helped
+""")
+
+    st.divider()
+
+    st.write("**3️⃣ What should you learn?**")
+
+    st.markdown("""
+Don't think:
+
+"I failed."
+
+Instead ask yourself:
+
+- Did I understand why the signal appeared?
+- Did I manage the risk sensibly?
+- Would I make the same decision again?
+- What can this trade teach me?
+""")
+
+    st.divider()
+
+    st.write("**4️⃣ Why is this useful?**")
+
+    st.markdown("""
+Every experienced investor has losing trades.
+
+Paper Trading lets you experience them...
+
+...without losing real money.
+
+Sometimes the trades that don't work out teach you the most.
+""")
+
+    st.subheader("⭐ Big Lesson")
+    st.markdown("""
+    **The goal isn't to avoid losing trades.**
+    
+    The goal is to become someone who understands why trades win or lose.
+    
+    That's how confident investors are built.
+    """)
+
+
+st.markdown(
+"""
+<div style="
+    background-color:#f4f8ec;
+    border-left:4px solid #8aae5a;
+    padding:14px 16px;
+    border-radius:8px;
+    margin-top:12px;
+    margin-bottom:12px;
+">
+<h3 style="margin-top:0; margin-bottom:18px;">
+✅ Before you move onto real money, ask yourself...
+</h3>
+
+
+<li>Do I understand what BUY means?</li>
+<li>Do I understand what SELL means?</li>
+<li>Do I know a signal is not a guarantee?</li>
+<li>I've practised with Pretend Trades.</li>
+<li>I've seen both winning and losing trades.</li>
+<li>Do I know why risk management matters?</li>
+</ul>
+
+<br>
+<strong>If not....that's completely ok</strong><br><br>
+
+Keep practising.
+
+Confidence comes from understanding - not rushing.
+
+
+</div>
+""",
+unsafe_allow_html=True,
+)
+
+st.divider()
+
 st.markdown("""
 <div style='background-color:#e8f4ff; padding:16px; border-radius:8px; text-align:center;'>
 <h3>⭐ Understanding your Dashboard ⭐</h2>
@@ -477,7 +1316,7 @@ st.warning("This tool is educational only, paper trading only, and does not conn
 
 
 # Performance summary cards
-st.subheader("📊 Quick Dashboard Summary")
+st.subheader("📍 Your Dashboard at a Glance")
 st.markdown("""
 These three numbers give you a quick snapshot of what the scanner has found so far.  
 These numbers describe the latest scan results, not how much money you have made or lost.
@@ -486,18 +1325,67 @@ These numbers describe the latest scan results, not how much money you have made
 - Total Return will become more useful once the pretend trading feature has been developed further.  
 """)
 col1, col2, col3 = st.columns(3)
-with col1: 
-    st.metric("Latest Scan Signals", performance["total_signals"])
-    st.write("**Latest Scan Signals:** How many Buy, Sell, Hold, or Watch signals the scanner found in the most recent scan.")
+
+with col1:
+    with st.container(border=True):
+        st.subheader("🟢 Latest Scan Signals")
+        st.write("")
+        st.metric("", performance["total_signals"])
+
+        st.markdown("""
+
+    **What is it?**
+
+    The number of Buy, Sell and Hold signals found in the most recent scan.
+
+    **Why does it matter?**
+
+    More signals means more opportunities to investigate.
+
+    **What should I do?**
+
+    Open the signals and read why Codex highlighted them.
+    """)
+
 with col2:
-    st.metric("Watch Signal Rate (%)", f"{performance['win_rate']:.1f}")
-    st.write("**Watch Signal Rate:** The percentage of latest scan results that the scanner marked as worth reviewing.")
+    with st.container(border=True):
+        st.subheader("📈 Watch Signal Rate")
+        st.write("")
+        st.metric("", f"{performance['win_rate']:.1f}%")
+
+        st.markdown("""
+
+    **What is it?**
+    The percentage of all scanned assets that Codex thought were worth investigating further. 
+    
+    **Why does it matter?**
+    A higher percentage means more opportunities were found during the latest scan.  A lower percentage usually means the market looks quieter. 
+    
+    **What should I do?**
+    Don't judge the market by this number alone.  Open the signals and understand why they were generated. 
+    """)
 with col3:
-    st.metric("Paper Return", "Not connected yet")
-    st.write("**Paper Return:** Placeholder only. This is not currently connected to live paper trading performance.")
+    with st.container(border=True):
+        st.subheader("💰 Paper Return")
+        st.write("")
+        st.metric("", "Not connected yet")
+
+        st.markdown("""
+   
+    **What is it?**
+    The running result of your Pretend Trades once Paper Trading is fully connected. 
+    
+    **Why does it matter?**
+    It helps you see how your decisions would have performed without risking real money.
+    
+    **What should I do?**
+    For now, ignore this number.  Focus on learning how to recognise good opportunities before worrying about profit. 
+    """)
+    
+st.divider()
 
 # Charts for signals
-st.subheader("Signal Distribution")
+st.subheader("📊 Reading the Charts")
 st.write("**What is this chart?** This bar chart shows how many buy, sell, or hold signals were found in the latest scan of your current watchlist.")
 if signals:
     signal_counts = pd.DataFrame(signals).groupby("signal").size().reset_index(name="count")
@@ -606,8 +1494,116 @@ st.write("- **🟢 Strong movement:** High confidence (80-89%). Good signal to c
 st.write("- **🟡 Worth studying:** Medium confidence (60-79%). Yellow light—pause and learn more before deciding.")
 st.write("- **🔵 Low interest:** Low confidence (<60%). Blue light—low priority, maybe ignore or watch casually.")
 
+st.divider()
+
 # Explain This Signal
-st.subheader("Explain This Signal")
+st.subheader("📖 Explain This Signal")
+st.write("**💡 What will appear here?**")
+st.markdown("""
+When you run your first scan, simply click on any signal. 
+
+Codex will explain it in plain English, including
+
+- ✅ Why the signal appeared
+- ⚠️ What could make it fail
+- 🔍 What you should investigate before acting
+- 📚 What you can learn from it
+
+You don't need to understand technical indicators. 
+
+Codex translates them into everyday language. 
+""")
+
+st.divider()
+
+st.subheader("📘 Example Lesson")
+st.write("(Example only - this is not today's market)")
+
+st.divider()
+
+st.write("**🟢 BUY Signal**")
+st.write("**What does BUY actually mean?**")
+
+st.markdown("""
+It does **not** mean:
+
+"Go and buy this immediately"
+
+It means:
+
+"The scanner found enough positive evidence that this stock deserves a closer look
+""")
+
+st.divider()
+
+st.write("**Why did Codex notice it?**")
+
+st.markdown("""
+Imagine the scanner found:
+✅ Price trend improving
+
+✅ Buyers becoming stronger
+
+✅ Momentum increasing
+
+These things together make the scanner interested
+""")
+
+st.divider()
+
+st.write("**What could go wrong?**")
+
+st.markdown("""
+Even good signals fail. 
+
+Perhaps:
+
+- Company news is released
+
+- The market suddenly falls
+
+- Buyers disappear
+
+No signal is guaranteed.
+""")
+
+st.divider()
+
+st.write("**Before opening a Pretend Trade**")
+
+st.markdown("""
+Ask yourself:
+Do I understand why this is a BUY?
+
+□ Am I following the scanner rather than guessing?
+
+□ What would make this signal fail?
+""")
+
+st.divider()
+
+st.write("**⭐ What should you learn?**")
+st.markdown("""
+The goal isn't to memorise indicators.
+
+The goal is to recognise WHY opportunities appear.
+""")
+
+st.divider()
+
+st.subheader("🚀 Ready?")
+st.markdown("""
+Run your first scan.
+
+Choose any signal.
+
+Codex will explain the real one.
+""")
+
+
+st.divider()
+
+
 st.write("**What is this?** Select a signal to get a simple explanation of why it appeared, what could go wrong, and what to check before trying a paper trade. This helps beginners understand risks and do their homework.")
 all_signals_for_explain = signals + history
 if all_signals_for_explain:
@@ -621,6 +1617,31 @@ if all_signals_for_explain:
         st.write(f"**What should I check before a paper trade?** {selected_data['what_to_check']}")
 else:
     st.info("No signals are available yet. Run a scan to generate signal explanations.")
+
+st.divider()
+
+st.subheader("📖 Learn More")
+
+st.markdown("""
+📈 Scanner
+
+Everything about today's scan
+- Current Signals
+- Explain This Signal
+- Signal History
+
+🎓 Academy
+
+Everything about learning
+- Dashboard Tour
+- Reading Charts
+- BUY / SELL / HOLD
+- Winning Trades
+- Losing Trades
+- Risk Management
+- Ready for Real Money
+
+""")
 
 # Signal history table
 st.subheader("Signal History")
