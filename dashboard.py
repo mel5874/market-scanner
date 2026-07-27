@@ -1516,78 +1516,78 @@ Codex translates them into everyday language.
 
 st.divider()
 
-st.subheader("📘 Example Lesson")
-st.write("(Example only - this is not today's market)")
+with st.expander("📘 Example Lesson — How to read a BUY signal - Click to open"):
+    st.write("(Example only - this is not today's market)")
 
-st.divider()
+    st.divider()
 
-st.write("**🟢 BUY Signal**")
-st.write("**What does BUY actually mean?**")
+    st.write("**🟢 BUY Signal**")
+    st.write("**What does BUY actually mean?**")
 
-st.markdown("""
-It does **not** mean:
+    st.markdown("""
+    It does **not** mean:
 
-"Go and buy this immediately"
+    "Go and buy this immediately"
 
-It means:
+    It means:
 
-"The scanner found enough positive evidence that this stock deserves a closer look
-""")
+    "The scanner found enough positive evidence that this stock deserves a closer look
+    """)
 
-st.divider()
+    st.divider()
 
-st.write("**Why did Codex notice it?**")
+    st.write("**Why did Codex notice it?**")
 
-st.markdown("""
-Imagine the scanner found:
-✅ Price trend improving
+    st.markdown("""
+    Imagine the scanner found:
+    ✅ Price trend improving
 
-✅ Buyers becoming stronger
+    ✅ Buyers becoming stronger
 
-✅ Momentum increasing
+    ✅ Momentum increasing
 
-These things together make the scanner interested
-""")
+    These things together make the scanner interested
+    """)
 
-st.divider()
+    st.divider()
 
-st.write("**What could go wrong?**")
+    st.write("**What could go wrong?**")
 
-st.markdown("""
-Even good signals fail. 
+    st.markdown("""
+    Even good signals fail. 
 
-Perhaps:
+    Perhaps:
 
-- Company news is released
+    - Company news is released
 
-- The market suddenly falls
+    - The market suddenly falls
 
-- Buyers disappear
+    - Buyers disappear
 
-No signal is guaranteed.
-""")
+    No signal is guaranteed.
+    """)
 
-st.divider()
+    st.divider()
 
-st.write("**Before opening a Pretend Trade**")
+    st.write("**Before opening a Pretend Trade**")
 
-st.markdown("""
-Ask yourself:
-Do I understand why this is a BUY?
+    st.markdown("""
+    Ask yourself:
+    Do I understand why this is a BUY?
 
-□ Am I following the scanner rather than guessing?
+    □ Am I following the scanner rather than guessing?
 
-□ What would make this signal fail?
-""")
+    □ What would make this signal fail?
+    """)
 
-st.divider()
+    st.divider()
 
-st.write("**⭐ What should you learn?**")
-st.markdown("""
-The goal isn't to memorise indicators.
+    st.write("**⭐ What should you learn?**")
+    st.markdown("""
+    The goal isn't to memorise indicators.
 
-The goal is to recognise WHY opportunities appear.
-""")
+    The goal is to recognise WHY opportunities appear.
+    """)
 
 st.divider()
 
@@ -1640,7 +1640,7 @@ if all_signals_for_explain:
 
         st.markdown("### 🔍 What should I check next?")
         st.write(selected_data["what_to_check"])
-        """)
+    
 
         st.divider()
 
@@ -1648,32 +1648,33 @@ if all_signals_for_explain:
 
         if signal_name == "BUY":
             st.markdown("""
-        A BUY signal does not guarantee that the price will rise.
+            A BUY signal does not guarantee that the price will rise.
 
-        It means Codex found enough positive evidence for this asset to deserve a closer look.
+            It means Codex found enough positive evidence for this asset to deserve a closer look.
             """)
 
         elif signal_name == "SELL":
             st.markdown("""
-        A SELL signal does not guarantee that the price will continue falling.
+            A SELL signal does not guarantee that the price will continue falling.
 
-        It means Codex found signs that conditions currently look weaker and may deserve further investigation.
+            It means Codex found signs that conditions currently look weaker and may deserve further investigation.
             """)
 
         else:
             st.markdown("""
-        A HOLD signal is not a useless result.
+            A HOLD signal is not a useless result.
 
-        It means Codex cannot currently see enough evidence for a strong BUY or SELL signal.
+            It means Codex cannot currently see enough evidence for a strong BUY or SELL signal.
             """)
 
             st.markdown("""
-        The goal is not to follow the signal blindly.
+            The goal is not to follow the signal blindly.
 
-        The goal is to understand why it appeared and decide whether the evidence makes sense to you.
+            The goal is to understand why it appeared and decide whether the evidence makes sense to you.
             """)
-else:
-    st.info("No signals are available yet. Run a scan to generate signal explanations.")
+        
+    else:
+        st.info("No signals are available yet. Run a scan to generate signal explanations.")
 
 st.divider()
 
