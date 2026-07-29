@@ -38,12 +38,28 @@ def save_journal(journal):
 # Portfolio storage helpers
 def default_portfolio():
     return {
-        "starting_cash": 10000.0,
-        "cash_balance": 10000.0,
-        "positions": [],
-        "closed_positions": [],
-        "trade_history": [],
-        "balance_history": [{"date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "balance": 10000.0}],
+    "starting_cash": 10000.0,
+    "cash_balance": 10000.0,
+
+    "positions": [],
+
+    "closed_positions": [],
+
+    "trade_history": [],
+
+    "balance_history": [
+        {
+            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "balance": 10000.0
+        }
+    ],
+
+    "watchlist": [],
+
+    "signal_history": [],
+
+    "journal": []
+
     }
 
 
@@ -52,8 +68,29 @@ def load_portfolio():
         if os.path.exists("portfolio.json"):
             with open("portfolio.json", "r") as f:
                 portfolio = json.load(f)
-                portfolio.setdefault("cash_balance", portfolio.get("starting_cash", 10000.0))
-                return portfolio
+                portfolio.setdefault(
+                    "cash_balance",
+                    portfolio.get("starting_cash", 10000.0)
+            )
+
+            portfolio.setdefault("positions", [])
+            portfolio.setdefault("closed_positions", [])
+            portfolio.setdefault("trade_history", [])
+
+            portfolio.setdefault(
+                "balance_history",
+                [{
+                    "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "balance": portfolio.get("starting_cash", 10000.0)
+                }]
+            )
+
+            portfolio.setdefault("watchlist", [])
+            portfolio.setdefault("signal_history", [])
+            portfolio.setdefault("journal", [])
+
+            return portfolio
+
     except json.JSONDecodeError:
         st.warning("⚠️ The portfolio file is damaged. Starting a fresh portfolio.")
         return default_portfolio()
@@ -87,6 +124,14 @@ def format_percentage(value):
 
 def calculate_position_metrics(position):
     current_price = get_live_price(position["symbol"])
+
+    if current_price is None:
+        st.error(
+            f"Could not retrieve a current price for {position['symbol']}. "
+            "Please try again in a moment. The trade has not been closed."
+        )
+        return None
+    
     quantity = position.get("quantity", 0)
     entry_price = position.get("entry_price", 0.0)
     starting_value = position.get("starting_value", entry_price * quantity)
@@ -107,9 +152,20 @@ def calculate_position_metrics(position):
 
 
 def close_portfolio_position(portfolio, index, reason):
-    position = portfolio["positions"].pop(index)
+    position = portfolio["positions"][index]
     current_price = get_live_price(position["symbol"])
+   
+    if current_price is None:
+        st.error(
+            f"Could not retrieve a current price for {position['symbol']}. "
+            "Please try again in a moment. The trade has not been closed."
+        )
+        return None
+
+    position = portfolio["positions"].pop(index)
+
     exit_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
     if position.get("direction") == "SELL":
         realised_pnl = (position.get("entry_price", 0.0) - current_price) * position.get("quantity", 0)
     else:
@@ -123,19 +179,8 @@ def close_portfolio_position(portfolio, index, reason):
         "realised_pct": realised_pct,
         "closure_reason": reason,
     }
-    portfolio.setdefault("closed_positions", []).append(closed_position)
-    portfolio.setdefault("trade_history", []).append({
-        "symbol": position["symbol"],
-        "direction": position["direction"],
-        "entry_datetime": position["entry_datetime"],
-        "exit_datetime": exit_datetime,
-        "entry_price": position["entry_price"],
-        "exit_price": current_price,
-        "quantity": position["quantity"],
-        "realised_pnl": realised_pnl,
-        "realised_pct": realised_pct,
-        "closure_reason": reason,
-    })
+    portfolio.setdefault("trade_history", []).append(closed_position)
+   
     current_value = current_price * position.get("quantity", 0)
     portfolio["cash_balance"] = portfolio.get("cash_balance", portfolio.get("starting_cash", 10000.0)) + current_value
     save_portfolio(portfolio)
@@ -1932,8 +1977,9 @@ if portfolio["positions"]:
         
         if st.button(f"Close This Trade", key=f"close_btn_{i}"):
             closed = close_portfolio_position(portfolio, i, reason)
-            st.success(f"Closed trade for {closed['symbol']}: Realised P/L {format_currency(closed['realised_pnl'])} ({format_percentage(closed['realised_pct'])})")
-            st.rerun()
+            if closed is not None:
+                st.success("Trade closed successfully.")
+                st.rerun()
         st.markdown("---")
 else:
     st.info("No open pretend trades yet. Execute a trade above to get started.")
@@ -1941,9 +1987,9 @@ else:
 # Closed Pretend Trades
 st.subheader("Closed Pretend Trades")
 st.write("**What is a closed trade?** This is a pretend position you have exited. It shows the final result of your pretend investment. Realised profit/loss is the actual gain or loss from that trade. The table below also shows the reason you chose to close each trade.")
-if portfolio["closed_positions"]:
+if portfolio["trade_history"]:
     closed_trades_data = []
-    for pos in portfolio["closed_positions"]:
+    for pos in portfolio["trade_history"]:
         closed_trades_data.append({
             "Symbol": pos["symbol"],
             "Direction": pos["direction"],
@@ -1965,9 +2011,9 @@ st.subheader("Pretend Portfolio Summary")
 st.write("**What is this?** This shows an overview of your pretend trading performance. Unrealised profit/loss is from open trades. Realised profit/loss is from closed trades. Total return is your overall pretend gain or loss.")
 starting_cash = portfolio.get("starting_cash", 10000.0)
 open_count = len(portfolio["positions"])
-closed_count = len(portfolio["closed_positions"])
+closed_count = len(portfolio["trade_history"])
 unrealised_pnl = sum(calculate_position_metrics(pos)["unrealised_pnl"] for pos in portfolio["positions"])
-realised_pnl = sum(pos.get("realised_pnl", 0.0) for pos in portfolio["closed_positions"])
+realised_pnl = sum(pos.get("realised_pnl", 0.0) for pos in portfolio["trade_history"])
 total_value = portfolio.get("cash_balance", starting_cash) + sum(calculate_position_metrics(pos)["current_value"] for pos in portfolio["positions"])
 total_return_pct = ((total_value - starting_cash) / starting_cash * 100) if starting_cash else 0.0
 portfolio.setdefault("balance_history", [])
@@ -1998,13 +2044,37 @@ st.write("**Important reminders:** These are simulated paper trading results onl
 
 # Calculate additional metrics
 if closed_count > 0:
-    winning_trades = [pos["realised_pnl"] for pos in portfolio["closed_positions"] if pos["realised_pnl"] > 0]
-    losing_trades = [pos["realised_pnl"] for pos in portfolio["closed_positions"] if pos["realised_pnl"] < 0]
-    win_rate = len(winning_trades) / closed_count * 100
-    avg_winning_trade = sum(winning_trades) / len(winning_trades) if winning_trades else 0.0
-    avg_losing_trade = sum(losing_trades) / len(losing_trades) if losing_trades else 0.0
-    best_trade = max(pos["realised_pnl"] for pos in portfolio["closed_positions"])
-    worst_trade = min(pos["realised_pnl"] for pos in portfolio["closed_positions"])
+    winning_trades = [
+        pos["realised_pnl"]
+        for pos in portfolio["trade_history"]
+        if pos["realised_pnl"] > 0
+    ]
+
+    losing_trades = [
+        pos["realised_pnl"]
+        for pos in portfolio["trade_history"]
+        if pos["realised_pnl"] < 0
+    ]
+
+    win_rate = (len(winning_trades) / closed_count * 100)
+    avg_winning_trade = (
+        sum(winning_trades) / len(winning_trades)
+        if winning_trades else 0.0
+    )
+    avg_losing_trade = (
+        sum(losing_trades) / len(losing_trades)
+        if losing_trades else 0.0
+    )
+
+    best_trade = max(
+        pos["realised_pnl"]
+        for pos in portfolio["trade_history"]
+    )
+
+    worst_trade = min(
+        pos["realised_pnl"]
+        for pos in portfolio["trade_history"]
+    )
 else:
     win_rate = 0.0
     avg_winning_trade = 0.0
