@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 from .signals import Signal
 
 
@@ -66,6 +68,87 @@ def add_trade_idea(signal: Signal) -> Signal:
         "Educational paper-trade idea only, not financial advice."
     )
     return signal
+
+
+def get_indicator_contributions(signal: Signal) -> dict[str, int]:
+    """Return the raw contribution from each indicator using the current scoring logic."""
+
+    contributions: dict[str, int] = {
+        "breakout": 25 if signal.is_breakout else 0,
+        "unusual_volume": min(25, int(10 + signal.volume_multiple * 6)) if signal.is_unusual_volume else 0,
+        "big_mover": min(20, int(abs(signal.pct_change) * 350)) if signal.is_big_mover else 0,
+        "volatility_spike": min(15, int(signal.volatility_multiple * 5)) if signal.is_volatility_spike else 0,
+        "pullback": 10 if signal.is_pullback else 0,
+        "breakout_plus_volume": 10 if signal.is_breakout and signal.is_unusual_volume else 0,
+        "pullback_plus_volume": 5 if signal.is_pullback and signal.is_unusual_volume else 0,
+    }
+    return contributions
+
+
+def get_traffic_light_label_from_score(score: int | float) -> str:
+    """Map a raw 0-100 score to the current dashboard traffic-light labels."""
+
+    if score >= 90:
+        return "🔴 High caution"
+    if score >= 80:
+        return "🟢 Strong movement"
+    if score >= 60:
+        return "🟡 Worth studying"
+    return "🔵 Low interest"
+
+
+def derive_audit_signal(signal: Signal) -> str:
+    """Create a diagnostic-only signal label without changing the real scanner output."""
+
+    if signal.is_pullback and not signal.is_breakout:
+        return "SELL" if signal.score >= 55 else "WATCH"
+    if signal.is_breakout and not signal.is_pullback:
+        return "BUY" if signal.score >= 55 else "WATCH"
+    if signal.score >= 55:
+        return "HOLD"
+    return "WATCH"
+
+
+def build_signal_audit_details(signal: Signal, displayed_signal: str = "WATCH") -> dict[str, object]:
+    """Gather the raw indicator values and diagnostic labels for a scan result."""
+
+    contributions = get_indicator_contributions(signal)
+    score = int(getattr(signal, "score", 0)) or sum(contributions.values())
+    confidence = round(score / 100, 2)
+    indicator_values = {
+        "pct_change": signal.pct_change,
+        "volume_multiple": signal.volume_multiple,
+        "volatility_multiple": signal.volatility_multiple,
+        "recent_high": signal.recent_high,
+        "recent_low": signal.recent_low,
+        "close": signal.close,
+        "previous_close": signal.previous_close,
+    }
+    missing_indicators = []
+    for name, value in indicator_values.items():
+        if value is None:
+            missing_indicators.append(name)
+        elif isinstance(value, float) and math.isnan(value):
+            missing_indicators.append(name)
+
+    return {
+        "symbol": signal.symbol,
+        "latest_price": signal.close,
+        "indicator_values": indicator_values,
+        "indicator_contributions": contributions,
+        "total_score": score,
+        "confidence": confidence,
+        "display_signal": displayed_signal,
+        "audit_signal": derive_audit_signal(signal),
+        "traffic_light_label": get_traffic_light_label_from_score(score),
+        "plain_english_reason": signal.trade_idea or "; ".join(signal.reasons) or "No explanation was generated.",
+        "missing_data": missing_indicators or ["none"],
+        "fallback_reason": (
+            "Current dashboard mapping keeps real scanner results in WATCH unless a stronger dashboard-side label is applied."
+            if displayed_signal == "WATCH"
+            else "No fallback applied."
+        ),
+    }
 
 
 def rank_signals(signals: list[Signal]) -> list[Signal]:
